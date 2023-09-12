@@ -23,25 +23,25 @@ int main()
     struct timespec t_sent, t_received;
 
 
-    FILE *dataFile = fopen("time_data.txt", "w");
-    if (dataFile == NULL) 
-    {
-        perror("Failed to open time_data.txt");
-        return 1;
-    }
+    // FILE *dataFile = fopen("time_data.txt", "w");
+    // if (dataFile == NULL) 
+    // {
+    //     perror("Failed to open time_data.txt");
+    //     return 1;
+    // }
 
-    FILE *gnuplotPipe = popen("gnuplot -persist", "w");
-    if (gnuplotPipe == NULL) {
-        perror("Failed to initialize Gnuplot");
-        return 1;
-    }
+    // FILE *gnuplotPipe = popen("gnuplot -persist", "w");
+    // if (gnuplotPipe == NULL) {
+    //     perror("Failed to initialize Gnuplot");
+    //     return 1;
+    // }
 
     // Set up Gnuplot settings for real-time plotting
-    fprintf(gnuplotPipe, "set title 'Real-time Delay Data Plot'\n");
-    fprintf(gnuplotPipe, "set xlabel 'Epoch'\n");
-    fprintf(gnuplotPipe, "set ylabel 'Delay in nanonsec'\n");
-    fprintf(gnuplotPipe, "set yrange [0:400000]\n");
-    fprintf(gnuplotPipe, "plot 'time_data.txt' with lines\n");
+    // fprintf(gnuplotPipe, "set title 'Real-time Delay Data Plot'\n");
+    // fprintf(gnuplotPipe, "set xlabel 'Epoch'\n");
+    // fprintf(gnuplotPipe, "set ylabel 'Delay in nanonsec'\n");
+    // fprintf(gnuplotPipe, "set yrange [0:400000]\n");
+    // fprintf(gnuplotPipe, "plot 'time_data.txt' with lines\n");
 
     // Create a socket file descriptor
     if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == 0) 
@@ -95,12 +95,13 @@ int main()
         delay = ((t_received.tv_sec)*pow(10,9)+t_received.tv_nsec)-(t_sent.tv_sec*pow(10,9)+t_sent.tv_nsec);
     
 
-        fprintf(dataFile, "%ld\n", delay);
-        fflush(dataFile);  // Flush the buffer to ensure data is written immediately
+        // fprintf(dataFile, "%ld\n", delay);
+        // fflush(dataFile);  // Flush the buffer to ensure data is written immediately
 
         // Update the plot in real-time
-        fprintf(gnuplotPipe, "replot\n");
-        fflush(gnuplotPipe);
+        // fprintf(gnuplotPipe, "replot\n");
+        // fflush(gnuplotPipe);
+        printf("reflected data: %ld\n",delay);
 
         usleep(1000);
         count++;
@@ -110,8 +111,8 @@ int main()
     close(server_fd);
 
     // Close the files and Gnuplot pipe (this will never be reached in an infinite loop)
-    fclose(dataFile);
-    pclose(gnuplotPipe);
+    // fclose(dataFile);
+    // pclose(gnuplotPipe);
 
     return 0;
 }

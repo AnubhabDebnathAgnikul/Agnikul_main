@@ -11,7 +11,7 @@ int main() {
     timer_t timer_id;
     struct sigevent sev;
     struct itimerspec its;
-    time_t start,end;
+    timer_t start,end;
     
     // Create a timer
     sev.sigev_notify = SIGEV_THREAD;
@@ -36,7 +36,7 @@ int main() {
         perror("timer_settime");
         return 1;
     }
-    time(&start);
+    clock_gettime(CLOCK_MONOTONIC,&t_sent);
     // Print the current timer status
     struct itimerspec current_its;
     while(1)

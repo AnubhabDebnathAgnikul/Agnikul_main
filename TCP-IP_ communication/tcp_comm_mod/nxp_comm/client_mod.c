@@ -29,7 +29,7 @@ int main() {
     serv_addr.sin_port = htons(PORT);
 
     // Convert IPv4 and IPv6 addresses from text to binary form
-    if (inet_pton(AF_INET,"1.1.1.50", &serv_addr.sin_addr) <= 0) {
+    if (inet_pton(AF_INET,"1.1.1.1", &serv_addr.sin_addr) <= 0) {
         perror("Invalid address/ Address not supported");
         exit(EXIT_FAILURE);
     }
